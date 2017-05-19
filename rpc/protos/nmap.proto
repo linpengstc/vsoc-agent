@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+service NmapScanner{
+    rpc getTaskStatus(NullRequest) returns (StatusResponse){}
+    rpc scan(ScanRequest) returns (ScanResponse){}
+    rpc getResult(NullRequest) returns (ResultResponse){}
+}
+
+message NullRequest{
+
+}
+
+message StatusResponse{
+    enum Status {
+        INIT = 0;
+        RUNNING = 1;
+        ENDING = 2;
+    }
+    Status status = 1;
+}
+
+message ScanRequest{
+    repeated string ips = 1;
+}
+
+message ScanResponse{
+    string result = 1;
+}
+
+message ResultResponse{
+    repeated NmapResult results = 1;
+}
+
+
+message NmapResult{
+    string target = 1;
+    string report = 2;
+}
