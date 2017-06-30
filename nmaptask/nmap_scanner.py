@@ -67,8 +67,10 @@ class NmapServicer(nmap_pb2.NmapScannerServicer):
             filename = "data/nmap/" + status['result']+ ".xml"
             print("[+] parse file: " + filename)
             with open(filename) as f:
-                report = f.read()
-            # nmap_results.append(nmap_pb2.NmapResult(target=status['result'], report=report))
+                # 文件切片
+                while True:
+                    report = f.read(1000)
+                    if not report:
+                        break
+                    yield nmap_pb2.NmapResult(target=status['result'], report=report)
             db.Nmap.remove({"target": status['target']})
-            yield nmap_pb2.NmapResult(target=status['result'], report=report)
-        # return nmap_pb2.ResultResponse(results = nmap_results)
