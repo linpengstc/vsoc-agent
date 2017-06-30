@@ -3,7 +3,7 @@ syntax = "proto3";
 service NmapScanner{
     rpc getTaskStatus(NullRequest) returns (StatusResponse){}
     rpc scan(ScanRequest) returns (ScanResponse){}
-    rpc getResult(NullRequest) returns (ResultResponse){}
+    rpc getResult(NullRequest) returns (stream NmapResult){}
 }
 
 message NullRequest{
@@ -27,9 +27,9 @@ message ScanResponse{
     string result = 1;
 }
 
-message ResultResponse{
-    repeated NmapResult results = 1;
-}
+//message ResultResponse{
+//    NmapResult result = 1;
+//}
 
 
 message NmapResult{

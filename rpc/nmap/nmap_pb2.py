@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='nmap.proto',
   package='',
   syntax='proto3',
-  serialized_pb=_b('\n\nnmap.proto\"\r\n\x0bNullRequest\"e\n\x0eStatusResponse\x12&\n\x06status\x18\x01 \x01(\x0e\x32\x16.StatusResponse.Status\"+\n\x06Status\x12\x08\n\x04INIT\x10\x00\x12\x0b\n\x07RUNNING\x10\x01\x12\n\n\x06\x45NDING\x10\x02\"\x1a\n\x0bScanRequest\x12\x0b\n\x03ips\x18\x01 \x03(\t\"\x1e\n\x0cScanResponse\x12\x0e\n\x06result\x18\x01 \x01(\t\".\n\x0eResultResponse\x12\x1c\n\x07results\x18\x01 \x03(\x0b\x32\x0b.NmapResult\",\n\nNmapResult\x12\x0e\n\x06target\x18\x01 \x01(\t\x12\x0e\n\x06report\x18\x02 \x01(\t2\x94\x01\n\x0bNmapScanner\x12\x30\n\rgetTaskStatus\x12\x0c.NullRequest\x1a\x0f.StatusResponse\"\x00\x12%\n\x04scan\x12\x0c.ScanRequest\x1a\r.ScanResponse\"\x00\x12,\n\tgetResult\x12\x0c.NullRequest\x1a\x0f.ResultResponse\"\x00\x62\x06proto3')
+  serialized_pb=_b('\n\nnmap.proto\"\r\n\x0bNullRequest\"e\n\x0eStatusResponse\x12&\n\x06status\x18\x01 \x01(\x0e\x32\x16.StatusResponse.Status\"+\n\x06Status\x12\x08\n\x04INIT\x10\x00\x12\x0b\n\x07RUNNING\x10\x01\x12\n\n\x06\x45NDING\x10\x02\"\x1a\n\x0bScanRequest\x12\x0b\n\x03ips\x18\x01 \x03(\t\"\x1e\n\x0cScanResponse\x12\x0e\n\x06result\x18\x01 \x01(\t\",\n\nNmapResult\x12\x0e\n\x06target\x18\x01 \x01(\t\x12\x0e\n\x06report\x18\x02 \x01(\t2\x92\x01\n\x0bNmapScanner\x12\x30\n\rgetTaskStatus\x12\x0c.NullRequest\x1a\x0f.StatusResponse\"\x00\x12%\n\x04scan\x12\x0c.ScanRequest\x1a\r.ScanResponse\"\x00\x12*\n\tgetResult\x12\x0c.NullRequest\x1a\x0b.NmapResult\"\x00\x30\x01\x62\x06proto3')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -170,37 +170,6 @@ _SCANRESPONSE = _descriptor.Descriptor(
 )
 
 
-_RESULTRESPONSE = _descriptor.Descriptor(
-  name='ResultResponse',
-  full_name='ResultResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='results', full_name='ResultResponse.results', index=0,
-      number=1, type=11, cpp_type=10, label=3,
-      has_default_value=False, default_value=[],
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=192,
-  serialized_end=238,
-)
-
-
 _NMAPRESULT = _descriptor.Descriptor(
   name='NmapResult',
   full_name='NmapResult',
@@ -234,18 +203,16 @@ _NMAPRESULT = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=240,
-  serialized_end=284,
+  serialized_start=192,
+  serialized_end=236,
 )
 
 _STATUSRESPONSE.fields_by_name['status'].enum_type = _STATUSRESPONSE_STATUS
 _STATUSRESPONSE_STATUS.containing_type = _STATUSRESPONSE
-_RESULTRESPONSE.fields_by_name['results'].message_type = _NMAPRESULT
 DESCRIPTOR.message_types_by_name['NullRequest'] = _NULLREQUEST
 DESCRIPTOR.message_types_by_name['StatusResponse'] = _STATUSRESPONSE
 DESCRIPTOR.message_types_by_name['ScanRequest'] = _SCANREQUEST
 DESCRIPTOR.message_types_by_name['ScanResponse'] = _SCANRESPONSE
-DESCRIPTOR.message_types_by_name['ResultResponse'] = _RESULTRESPONSE
 DESCRIPTOR.message_types_by_name['NmapResult'] = _NMAPRESULT
 
 NullRequest = _reflection.GeneratedProtocolMessageType('NullRequest', (_message.Message,), dict(
@@ -275,13 +242,6 @@ ScanResponse = _reflection.GeneratedProtocolMessageType('ScanResponse', (_messag
   # @@protoc_insertion_point(class_scope:ScanResponse)
   ))
 _sym_db.RegisterMessage(ScanResponse)
-
-ResultResponse = _reflection.GeneratedProtocolMessageType('ResultResponse', (_message.Message,), dict(
-  DESCRIPTOR = _RESULTRESPONSE,
-  __module__ = 'nmap_pb2'
-  # @@protoc_insertion_point(class_scope:ResultResponse)
-  ))
-_sym_db.RegisterMessage(ResultResponse)
 
 NmapResult = _reflection.GeneratedProtocolMessageType('NmapResult', (_message.Message,), dict(
   DESCRIPTOR = _NMAPRESULT,
@@ -316,10 +276,10 @@ class NmapScannerStub(object):
         request_serializer=ScanRequest.SerializeToString,
         response_deserializer=ScanResponse.FromString,
         )
-    self.getResult = channel.unary_unary(
+    self.getResult = channel.unary_stream(
         '/NmapScanner/getResult',
         request_serializer=NullRequest.SerializeToString,
-        response_deserializer=ResultResponse.FromString,
+        response_deserializer=NmapResult.FromString,
         )
 
 
@@ -353,10 +313,10 @@ def add_NmapScannerServicer_to_server(servicer, server):
           request_deserializer=ScanRequest.FromString,
           response_serializer=ScanResponse.SerializeToString,
       ),
-      'getResult': grpc.unary_unary_rpc_method_handler(
+      'getResult': grpc.unary_stream_rpc_method_handler(
           servicer.getResult,
           request_deserializer=NullRequest.FromString,
-          response_serializer=ResultResponse.SerializeToString,
+          response_serializer=NmapResult.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(
@@ -365,6 +325,11 @@ def add_NmapScannerServicer_to_server(servicer, server):
 
 
 class BetaNmapScannerServicer(object):
+  """The Beta API is deprecated for 0.15.0 and later.
+
+  It is recommended to use the GA API (classes and functions in this
+  file not marked beta) for all further purposes. This class was generated
+  only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0."""
   def getTaskStatus(self, request, context):
     context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
   def scan(self, request, context):
@@ -374,6 +339,11 @@ class BetaNmapScannerServicer(object):
 
 
 class BetaNmapScannerStub(object):
+  """The Beta API is deprecated for 0.15.0 and later.
+
+  It is recommended to use the GA API (classes and functions in this
+  file not marked beta) for all further purposes. This class was generated
+  only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0."""
   def getTaskStatus(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
     raise NotImplementedError()
   getTaskStatus.future = None
@@ -382,22 +352,26 @@ class BetaNmapScannerStub(object):
   scan.future = None
   def getResult(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
     raise NotImplementedError()
-  getResult.future = None
 
 
 def beta_create_NmapScanner_server(servicer, pool=None, pool_size=None, default_timeout=None, maximum_timeout=None):
+  """The Beta API is deprecated for 0.15.0 and later.
+
+  It is recommended to use the GA API (classes and functions in this
+  file not marked beta) for all further purposes. This function was
+  generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
   request_deserializers = {
     ('NmapScanner', 'getResult'): NullRequest.FromString,
     ('NmapScanner', 'getTaskStatus'): NullRequest.FromString,
     ('NmapScanner', 'scan'): ScanRequest.FromString,
   }
   response_serializers = {
-    ('NmapScanner', 'getResult'): ResultResponse.SerializeToString,
+    ('NmapScanner', 'getResult'): NmapResult.SerializeToString,
     ('NmapScanner', 'getTaskStatus'): StatusResponse.SerializeToString,
     ('NmapScanner', 'scan'): ScanResponse.SerializeToString,
   }
   method_implementations = {
-    ('NmapScanner', 'getResult'): face_utilities.unary_unary_inline(servicer.getResult),
+    ('NmapScanner', 'getResult'): face_utilities.unary_stream_inline(servicer.getResult),
     ('NmapScanner', 'getTaskStatus'): face_utilities.unary_unary_inline(servicer.getTaskStatus),
     ('NmapScanner', 'scan'): face_utilities.unary_unary_inline(servicer.scan),
   }
@@ -406,18 +380,23 @@ def beta_create_NmapScanner_server(servicer, pool=None, pool_size=None, default_
 
 
 def beta_create_NmapScanner_stub(channel, host=None, metadata_transformer=None, pool=None, pool_size=None):
+  """The Beta API is deprecated for 0.15.0 and later.
+
+  It is recommended to use the GA API (classes and functions in this
+  file not marked beta) for all further purposes. This function was
+  generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
   request_serializers = {
     ('NmapScanner', 'getResult'): NullRequest.SerializeToString,
     ('NmapScanner', 'getTaskStatus'): NullRequest.SerializeToString,
     ('NmapScanner', 'scan'): ScanRequest.SerializeToString,
   }
   response_deserializers = {
-    ('NmapScanner', 'getResult'): ResultResponse.FromString,
+    ('NmapScanner', 'getResult'): NmapResult.FromString,
     ('NmapScanner', 'getTaskStatus'): StatusResponse.FromString,
     ('NmapScanner', 'scan'): ScanResponse.FromString,
   }
   cardinalities = {
-    'getResult': cardinality.Cardinality.UNARY_UNARY,
+    'getResult': cardinality.Cardinality.UNARY_STREAM,
     'getTaskStatus': cardinality.Cardinality.UNARY_UNARY,
     'scan': cardinality.Cardinality.UNARY_UNARY,
   }

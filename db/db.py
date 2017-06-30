@@ -5,7 +5,7 @@ import pymongo
 class DB(object):
 
     def __getattr__(self, item):
-        return self.conn["vsoc"][item]
+        return self.conn["VSOCA"][item]
 
     def __init__(self):
         self.conn = pymongo.MongoClient(connect=False)
