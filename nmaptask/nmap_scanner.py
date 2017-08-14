@@ -37,14 +37,12 @@ class NmapServicer(nmap_pb2.NmapScannerServicer):
     def do_scan(self, target, options="-A -n -Pn -p0-65535"):
         # 记录结果
         db = DB()
-        """
         nmproc = NmapProcess(target, options)
         nmproc.run_background()
         while nmproc.is_running():
             print("Nmap Scan running: ETC: {0} DONE: {1}%".format(nmproc.etc, nmproc.progress))
             time.sleep(2)
         print("rc: {0} output: {1}".format(nmproc.rc, nmproc.summary))
-        """
         try:
             # 创建文件名
             md5 = hashlib.md5()
