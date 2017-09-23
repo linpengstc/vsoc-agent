@@ -34,7 +34,7 @@ class NmapServicer(nmap_pb2.NmapScannerServicer):
             self.do_scan(str(ip))
         return nmap_pb2.ScanResponse(result="success")
 
-    def do_scan(self, target, options="-A -n -Pn -p0-65535"):
+    def do_scan(self, target, options="-n -sS --host-timeout 600 --open"):
         # 记录结果
         db = DB()
         nmproc = NmapProcess(target, options)
